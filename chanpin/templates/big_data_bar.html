@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大数据行业各职位薪资水平</title>
+    <script src="../static/echarts.min.js"></script>
+     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+</head>
+<body>
+<div id="main" style="width: 1000px;height: 600px;" ></div>
+<script type="text/javascript">
+    var myChart=echarts.init(document.getElementById('main'))
+     $.get("http://127.0.0.1:5000/bigdataxinzi",function(data,status){
+        //alert(data)
+         var zwmc=[];
+         var maxxz=[];
+         var minxz=[];
+         var cou=[];
+         var minp=[];
+         var maxp=[]
+         var str=JSON.parse(data)
+         //alert(str)
+         zwmc=str.zhiwei
+         maxxz=str.maxxinzi
+         minxz=str.minxinzi
+         cou=str.counts
+         minp=str.min_p
+         maxp=str.max_p
+         myChart.setOption({
+        legend:{
+            data:['最高薪资','最低平均薪资','最高平均薪资','最低薪资','需求量']
+        },
+             tooltip:{
+            trigger:'item'
+        },
+    xAxis: {
+        type: 'category',
+        data: zwmc
+    },
+    yAxis: {
+        type: 'value',
+        scale:true
+    },
+        //添加X轴下边的拖动条
+        dataZoom: [
+        {
+            type: 'inside',
+            start: 50,
+            end: 1001
+        },
+        {
+            show: true,
+            type: 'slider',
+            top: '90%',
+            start: 50,
+            end: 100
+        }
+    ],
+    series: [{
+       name:'最高薪资',
+        type:'line',
+        data:maxxz
+    },
+        {
+            name:'最低平均薪资',
+            type:'bar',
+            data:minp
+        },
+        {
+            name:'最高平均薪资',
+            type:'bar',
+            data:maxp
+        },
+        {
+            name:'最低薪资',
+            type:'line',
+            data:minxz
+        },
+        {
+            name:'需求量',
+            type:'bar',
+            data:cou
+        }
+        ]})});
+
+</script>
+
+</body>
+</html>

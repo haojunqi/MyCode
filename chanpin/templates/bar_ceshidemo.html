@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1000px;height: 1000px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        $.get("http://127.0.0.1:5000/bigdataxinzi",function(data,status){
+                var ming=[];
+            var zhi=[];
+
+             var str1=JSON.parse(data)
+            alert(str1)
+            ming=str1.shengfen
+            //alert(str2.length)
+            //ming.push(str1.shengfen)
+            //alert(ming.length)
+            zhi=str1.shuliang
+            //alert(zhi)
+         myChart.setOption( {
+            title: {
+                text: '第一个 ECharts 实例'
+            },
+            tooltip: {},
+            legend: {
+                data:['数量']
+            },
+            xAxis: {
+                data:ming
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: zhi
+            }]
+        })});
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        //myChart.setOption(myChart.option);
+    </script>
+</body>
+</html>

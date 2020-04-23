@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <script src="../static/echarts.min.js"></script>
+    <script src="../static/echarts-wordcloud.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+
+</head>
+<body>
+<div id="main" style="width: 1000px;height: 600px;" ></div>
+<script type="text/javascript">
+var myChart=echarts.init(document.getElementById("main"))
+$.get("http://127.0.0.1:5000/dataciyun",function(data,status) {
+    //alert(data)
+    data=JSON.parse(data)
+    alert(data)
+    myChart.setOption({ title:{
+                text: '',
+                left:'center',
+             },
+            //数据可以点击
+            tooltip:{
+
+            },
+
+            series:[
+                {
+                    //maskImage:maskResource,
+                    //词的类型
+                    type: 'wordCloud',
+                    //设置字符大小范围
+                    sizeRange:[6,78],
+                    rotationRange:[-45,90],
+                    textStyle: {
+                        normal:{
+                            //生成随机的字体颜色
+                            color:function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',')+')';
+
+                            }
+                        }
+
+                    },
+                    //不要忘记调用数据
+                       data:data.items
+
+                 }
+            ] })
+});
+</script>
+
+</body>
+</html>
